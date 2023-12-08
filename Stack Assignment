@@ -1,0 +1,162 @@
+# Number 1 Question
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.items.pop()
+        else:
+            return None
+
+def is_prime(num):
+    if num < 2:
+        return False
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+def prime_factors_stack(n):
+    prime_factors = []
+    stack = Stack()
+
+    for i in range(2, n + 1):
+        while is_prime(i) and n % i == 0:
+            prime_factors.append(i)
+            n //= i
+
+    for factor in prime_factors[::-1]:
+        stack.push(factor)
+
+    return stack
+
+# Input: Positive Integer
+num = int(input("Enter a positive integer: "))
+
+# Get prime factors in descending order using a stack
+factors_stack = prime_factors_stack(num)
+
+# Print prime factors in descending order
+print(f"Prime factors of {num} in descending order: ", end="")
+while not factors_stack.is_empty():
+    print(factors_stack.pop(), end=" ")
+
+# Number 2 Question
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.items.pop()
+        else:
+            return None
+
+def binary_to_decimal(binary_number):
+    stack = Stack()
+    decimal_number = 0
+    weight = 0
+
+    for bit in binary_number[::-1]:
+        stack.push(int(bit))
+
+    while not stack.is_empty():
+        decimal_number += stack.pop() * (2 ** weight)
+        weight += 1
+
+    return decimal_number
+
+# Test the function
+binary_numbers = ["11000101", "10101010", "11111111", "10000000", "1111100000"]
+
+for binary_number in binary_numbers:
+    decimal_result = binary_to_decimal(binary_number)
+    print(f"Binary: {binary_number} -> Decimal: {decimal_result}")
+
+# Number 3 Question
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.items.pop()
+        else:
+            return None
+
+def decimal_to_binary(decimal_number):
+    stack = Stack()
+
+    while decimal_number > 0:
+        remainder = decimal_number % 2
+        stack.push(remainder)
+        decimal_number //= 2
+
+    binary_number = ""
+    while not stack.is_empty():
+        binary_number += str(stack.pop())
+
+    return binary_number if binary_number else "0"
+
+# Test the function
+decimal_numbers = [10, 45, 128, 255, 1000]
+
+for decimal_number in decimal_numbers:
+    binary_result = decimal_to_binary(decimal_number)
+    print(f"Decimal: {decimal_number} -> Binary: {binary_result}")
+
+# Number 4 Question
+class InfixToPostfixConverter:
+    def __init__(self):
+        self.infix = ""
+        self.postfix = ""
+
+    def get_infix(self, expression):
+        self.infix = expression
+
+    def show_infix(self):
+        print("Infix Expression:", self.infix)
+
+    def show_postfix(self):
+        print("Postfix Expression:", self.postfix)
+
+    def convert_to_postfix(self):
+        stack = []
+        self.postfix = ""
+
+        def precedence(op):
+            if op == '+' or op == '-':
+                return 1
+            elif op == '*' or op == '/':
+                return 2
+            else:
+                return 0
+
+        for symbol in self.infix:
+            if symbol.isalnum():
+                self.postfix += symbol
+            elif symbol == '(':
+                stack.append(symbol)
+            elif symbol == ')':
+                while stack and stack[-1] != '(':
+                    self.postfix += stack.pop()
+                stack.pop()  #
